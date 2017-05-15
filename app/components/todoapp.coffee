@@ -4,6 +4,7 @@
 TodoHeader =                    require './todoheader'
 TodoInput =                     require './todoinput'
 TodoList =                      require './todolist'
+ToggleButton =                  require './togglebutton'
 
 class TodoApp extends Component
 
@@ -13,6 +14,7 @@ class TodoApp extends Component
         @state =
             todoItems: []
             todoCount: 0
+            filterCompleted: false
 
     addTodo: (todo) =>
         {todoItems, todoCount} = @state
@@ -49,15 +51,25 @@ class TodoApp extends Component
             todoItems: todoItems
             todoCount: if completed then todoCount - 1 else todoCount + 1
 
+    toggleFilterCompleted: () =>
+        {filterCompleted} = @state
+
+        @setState
+            filterCompleted: not filterCompleted
+
     render: () => div =>
-        {todoItems, todoCount} = @state
+        {todoItems, todoCount, filterCompleted} = @state
 
         TodoHeader thingsToDo: todoCount
 
         div class: 'container', =>
             TodoInput {@addTodo}
-            TodoList {todoItems, @removeTodo, @updateTodo}
-
+            TodoList {todoItems, @removeTodo, @updateTodo, filterCompleted}
+            ToggleButton
+                className: 'btn btn-primary btn-lg'
+                style: {marginTop: '10px', textAlign: 'right'}
+                text: if filterCompleted then 'Visa gjorda saker' else 'Dölj gjorda saker'
+                clickHandler: @toggleFilterCompleted
 
 module.exports = () ->
     docapture createElement(TodoApp)
