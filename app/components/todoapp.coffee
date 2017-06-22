@@ -1,5 +1,4 @@
 {Component, createElement} =    require 'react'
-{docapture} =                   require 'react-elem'
 {div} =                         require('react-elem').DOM
 TodoHeader =                    require './todoheader'
 TodoInput =                     require './todoinput'
@@ -94,4 +93,4 @@ class TodoApp extends Component
                 
 
 module.exports = () ->
-    docapture createElement(TodoApp)
+    createElement(TodoApp)
